@@ -71,4 +71,4 @@ Not free: CISSP/CISM/CISA exams (about $600-760 each). Cloud labs deploy into my
 
 ## Credits
 
-The roadmap is adapted from a Security Engineering Mastery Tracker shared by a friend in the field. All lab platforms and learning resources belong to their respective authors.
+The roadmap is adapted from a Security Engineering Mastery Tracker. All lab platforms and learning resources belong to their respective authors.

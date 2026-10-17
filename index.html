@@ -57,7 +57,7 @@ function stats(){
 }
 function render(){
  const k=stats();
- let h='<div class="top"><div><h1>Security engineering roadmap tracker</h1><p class="sub">Progress on the 69-module roadmap. Last updated '+esc(S.updated)+'.</p></div><div class="tools"><span class="badge">'+(canEdit?'Edit mode':'Read-only view')+'</span><button class="ghost" id="tog">'+(canEdit?'Exit edit mode':'Edit as owner')+'</button>'+(canEdit?'<button id="save"'+(dirty?'':' disabled')+'>Download updated page</button>':'')+'</div></div><div class="msg" id="msg">'+(dirty?'Unsaved changes. Download the updated page when you are done.':'')+'</div>';
+ let h='<div class="top"><div><h1>Security engineering roadmap tracker</h1><p class="sub">Progress on the 69-module roadmap. Last updated '+esc(S.updated)+'.</p></div><div class="tools">'+(canEdit?'<span class="badge">Edit mode</span><button id="save"'+(dirty?'':' disabled')+'>Download updated page</button>':'')+'</div></div><div class="msg" id="msg">'+(dirty?'Unsaved changes. Download the updated page when you are done.':'')+'</div>';
  h+='<div class="stats"><div class="stat"><b>'+k.done.length+' / '+M.length+'</b><span>Gates cleared</span></div><div class="stat"><b>'+k.ip.length+'</b><span>In progress</span></div><div class="stat"><b>'+k.hd+' / '+k.ht+'</b><span>Module hours cleared</span></div><div class="stat"><b>'+k.lg+'</b><span>Hours logged ('+k.l7+' in the last 7 days)</span></div></div>';
  h+='<h2>Progress by phase</h2>';
  for(let p=1;p<=7;p++){const ms=M.filter(m=>ph(m[0])==p),t=ms.reduce((a,m)=>a+m[2],0);
@@ -81,7 +81,6 @@ root.addEventListener('click',e=>{const t=e.target;
  else if(t.id=='ladd'){const d=document.getElementById('ld').value,hh=parseFloat(document.getElementById('lh').value),tx=document.getElementById('lt').value.trim();
   if(!d||!(hh>=0)||!tx){document.getElementById('msg').textContent='Enter a date, hours and a short description.';return}
   S.log.unshift({d:d,h:hh,t:tx});S.log.sort((a,b)=>b.d.localeCompare(a.d));dirty=true;render()}
- else if(t.id=='tog'){canEdit=!canEdit;render()}
  else if(t.id=='save')save()});
 function build(){
  const j=JSON.stringify(S).replace(/</g,'\\u003c'),E='</'+'script>';

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Security Engineering Roadmap Tracker</title>
+<style id="css">
+:root{--bg:#f4f6f8;--surface:#fff;--ink:#16222b;--mute:#5d6b76;--line:#d9e0e6;--accent:#1f5fbf;--ok:#1b7f55;--ok-bg:#e0f3ea;--wip:#9a6410;--wip-bg:#fbefd5;--idle-bg:#e8edf1;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171d;--surface:#18222a;--ink:#e6edf2;--mute:#9aa9b4;--line:#2b3943;--accent:#6ea2f0;--ok:#4cc58f;--ok-bg:#16382b;--wip:#e5b053;--wip-bg:#3b2d12;--idle-bg:#24313a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10171d;--surface:#18222a;--ink:#e6edf2;--mute:#9aa9b4;--line:#2b3943;--accent:#6ea2f0;--ok:#4cc58f;--ok-bg:#16382b;--wip:#e5b053;--wip-bg:#3b2d12;--idle-bg:#24313a;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums}
+main{max-width:1000px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:26px;line-height:1.2;margin:0 0 4px;letter-spacing:-.01em}h2{font-size:17px;margin:34px 0 10px}
+.sub{color:var(--mute);margin:0}.top{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:flex-start}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{font-size:13px;padding:3px 10px;border-radius:99px;background:var(--idle-bg);color:var(--mute)}
+button,select,input{font:inherit;color:inherit}
+button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer}button:disabled{opacity:.45;cursor:default}
+button.ghost{background:transparent;color:var(--mute);padding:2px 8px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:14px 16px 14px 0}.stat b{display:block;font-size:28px;line-height:1.1}.stat span{color:var(--mute);font-size:13px}
+.phase{display:grid;grid-template-columns:minmax(160px,230px) 1fr 110px;gap:12px;align-items:center;padding:7px 0;font-size:14px}
+.bar{height:10px;border-radius:5px;background:var(--idle-bg);overflow:hidden;display:flex}.bar i{display:block;height:100%}
+.bar .c{background:var(--ok)}.bar .w{background:var(--wip)}
+.pct{color:var(--mute);text-align:right;font-size:13px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.chips button{background:var(--idle-bg);color:var(--ink);padding:5px 11px;font-size:13px}.chips button.on{background:var(--accent);color:#fff}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:680px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:13px;color:var(--mute);font-weight:600}tr:last-child td{border-bottom:0}
+td.n{color:var(--mute);width:40px}td.h{width:50px}
+.pill{font-size:12.5px;padding:2px 9px;border-radius:99px;white-space:nowrap}.s0{background:var(--idle-bg);color:var(--mute)}.s1{background:var(--wip-bg);color:var(--wip)}.s2{background:var(--ok-bg);color:var(--ok)}
+.opt{font-size:12px;color:var(--mute)}
+select,input[type=text],input[type=number],input[type=date]{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+td input[type=text]{width:100%;min-width:140px}
+.form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.form input[type=text]{flex:1;min-width:200px}.form input[type=number]{width:80px}
+.log{list-style:none;margin:0;padding:0}.log li{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}.log time{color:var(--mute);min-width:84px}.log .lh{min-width:48px;font-weight:600}.log .lt{flex:1;overflow-wrap:anywhere}
+.msg{color:var(--mute);font-size:13px;min-height:20px;margin-top:6px}
+@media(max-width:600px){.phase{grid-template-columns:1fr 70px}.phase .bar{grid-column:1/-1;order:3}}
+</style></head><body><main id="root"></main>
+<script id="state" type="application/json">{"mods":{},"log":[],"updated":"2026-10-17"}</script>
+<script id="app">
+const S=JSON.parse(document.getElementById('state').textContent);
+const P=['','Phase 1: Advanced AppSec','Phase 2: DevSecOps','Phase 3: Cloud security','Phase 4: Mobile security','Phase 5: AI engineering','Phase 6: AI security','Continuous: Leadership and consulting'];
+const ST=['Not started','In progress','Gate cleared'];
+const M=[[1,'Business logic vulnerability classes',14,0],[2,'Access control and authorization flaws',10,0],[3,'OAuth 2.0 and OpenID Connect',14,0],[4,'JWT attacks',8,0],[5,'OWASP API Security Top 10 (crAPI)',16,0],[6,'GraphQL security',10,0],[7,'gRPC and Protobuf security',10,0],[8,'Secure code review (Semgrep rules)',14,0],[9,'STRIDE, data-flow diagrams, trust boundaries',12,0],[10,'Threat modeling as code (pytm)',8,1],[11,'Web refresher: XSS, SQLi, SSRF',20,1],
+[12,'Secure SDLC and shift-left design',8,0],[13,'Git security and commit signing',6,0],[14,'Secret management and detection',8,0],[15,'GitHub Actions security',12,0],[16,'CI/CD poisoned pipeline execution',24,0],[17,'Dependency security and SCA',6,0],[18,'SBOM generation and consumption',5,0],[19,'Artifact signing (Sigstore, SLSA)',8,0],[20,'Docker internals: namespaces and cgroups',10,0],[21,'Image security and scanning',6,0],[22,'Container escape',12,0],[23,'Runtime security and detection (Falco)',8,0],[24,'Kubernetes architecture',10,0],[25,'Kubernetes RBAC and least privilege',10,0],[26,'Kubernetes secrets and etcd exposure',6,0],[27,'Full cluster attack chain',20,0],[28,'Admission controllers and policy-as-code',12,0],[29,'Network policies and segmentation',8,0],[30,'IaC security and policy gates',12,0],
+[31,'AWS setup: billing alerts, CLI, destroy discipline',4,0],[32,'AWS IAM model',10,0],[33,'IAM privilege escalation',16,0],[34,'S3 security and data exposure',8,0],[35,'EC2, SSRF and instance metadata',10,0],[36,'Lambda and serverless security',10,0],[37,'Full-stack cloud attack (AWSGoat)',12,0],[38,'Cloud attack path mapping',12,0],[39,'CloudTrail, GuardDuty and logging blind spots',10,0],[40,'Cloud security posture assessment',8,0],[41,'Entra ID and Azure offensive security',20,0],[42,'GCP offensive (breadth pass)',10,1],
+[43,'Android architecture and security model',8,0],[44,'APK analysis and reverse engineering',12,0],[45,'Runtime testing with Frida',14,0],[46,'Mobile API testing and backend trust',10,0],[47,'iOS security and testing',14,1],
+[48,'Python and security scripting',40,0],[49,'Data, statistics and Jupyter',30,0],[50,'ML concepts: training and inference',40,0],[51,'Neural networks from scratch',60,0],[52,'Transformers, embeddings, tokenisation',30,0],[53,'RAG systems, agents and tool calling',40,0],
+[54,'OWASP Top 10 for LLM applications',10,0],[55,'Prompt injection: direct and indirect',14,0],[56,'Jailbreaking and guardrail bypass',10,0],[57,'Agent security and excessive agency',14,0],[58,'Data poisoning and AI supply chain',10,0],[59,'AI red team methodology',20,0],
+[60,'NIST CSF 2.0',12,0],[61,'ISO 27001 and ISMS',12,0],[62,'Zero Trust architecture',10,0],[63,'CISSP / CISM / CISA preparation',80,0],[64,'Risk management and governance',14,0],[65,'Penetration test report writing',10,0],[66,'Executive and board communication',8,0],[67,'Proposals, SOWs and scoping',12,0],[68,'Security questionnaires',8,0],[69,'Client presentations',8,0]];
+const ph=n=>n<=11?1:n<=30?2:n<=42?3:n<=47?4:n<=53?5:n<=59?6:7;
+const st=n=>S.mods[n]||(S.mods[n]={s:0,n:''});
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let canEdit=false,dirty=false,filt=0;
+const root=document.getElementById('root');
+function stats(){
+ const done=M.filter(m=>st(m[0]).s==2),ip=M.filter(m=>st(m[0]).s==1);
+ const hd=done.reduce((a,m)=>a+m[2],0),ht=M.reduce((a,m)=>a+m[2],0);
+ const lg=S.log.reduce((a,l)=>a+l.h,0),cut=Date.now()-7*864e5;
+ const l7=S.log.filter(l=>new Date(l.d).getTime()>=cut).reduce((a,l)=>a+l.h,0);
+ return {done,ip,hd,ht,lg,l7};
+}
+function render(){
+ const k=stats();
+ let h='<div class="top"><div><h1>Security engineering roadmap tracker</h1><p class="sub">Progress on the 69-module roadmap. Last updated '+esc(S.updated)+'.</p></div><div class="tools"><span class="badge">'+(canEdit?'Edit mode':'Read-only view')+'</span><button class="ghost" id="tog">'+(canEdit?'Exit edit mode':'Edit as owner')+'</button>'+(canEdit?'<button id="save"'+(dirty?'':' disabled')+'>Download updated page</button>':'')+'</div></div><div class="msg" id="msg">'+(dirty?'Unsaved changes. Download the updated page when you are done.':'')+'</div>';
+ h+='<div class="stats"><div class="stat"><b>'+k.done.length+' / '+M.length+'</b><span>Gates cleared</span></div><div class="stat"><b>'+k.ip.length+'</b><span>In progress</span></div><div class="stat"><b>'+k.hd+' / '+k.ht+'</b><span>Module hours cleared</span></div><div class="stat"><b>'+k.lg+'</b><span>Hours logged ('+k.l7+' in the last 7 days)</span></div></div>';
+ h+='<h2>Progress by phase</h2>';
+ for(let p=1;p<=7;p++){const ms=M.filter(m=>ph(m[0])==p),t=ms.reduce((a,m)=>a+m[2],0);
+  const c=ms.filter(m=>st(m[0]).s==2).reduce((a,m)=>a+m[2],0),w=ms.filter(m=>st(m[0]).s==1).reduce((a,m)=>a+m[2],0);
+  h+='<div class="phase"><span>'+P[p]+'</span><div class="bar" role="img" aria-label="'+c+' of '+t+' hours cleared"><i class="c" style="width:'+(c/t*100)+'%"></i><i class="w" style="width:'+(w/t*100)+'%"></i></div><span class="pct">'+c+' / '+t+' hrs</span></div>';}
+ h+='<h2>Modules</h2><div class="chips">'+['All'].concat(P.slice(1)).map((x,i)=>'<button data-f="'+i+'" class="'+(filt==i?'on':'')+'">'+(i?'Phase '+(i<7?i:'C')+(i==7?'ontinuous':''):'All')+'</button>').join('')+'</div>';
+ h+='<div class="wrap"><table><thead><tr><th>#</th><th>Module</th><th>Hrs</th><th>Status</th><th>Notes</th></tr></thead><tbody>';
+ M.filter(m=>!filt||ph(m[0])==filt).forEach(m=>{const e=st(m[0]);
+  h+='<tr><td class="n">'+m[0]+'</td><td>'+esc(m[1])+(m[3]?' <span class="opt">optional</span>':'')+'</td><td class="h">'+m[2]+'</td><td>'+(canEdit?'<select data-n="'+m[0]+'" aria-label="Status for module '+m[0]+'">'+ST.map((x,i)=>'<option value="'+i+'"'+(e.s==i?' selected':'')+'>'+x+'</option>').join('')+'</select>':'<span class="pill s'+e.s+'">'+ST[e.s]+'</span>')+'</td><td>'+(canEdit?'<input type="text" data-note="'+m[0]+'" maxlength="200" value="'+esc(e.n)+'" aria-label="Notes for module '+m[0]+'">':esc(e.n))+'</td></tr>';});
+ h+='</tbody></table></div><h2>Activity log</h2>';
+ if(canEdit)h+='<div class="form"><input type="date" id="ld" value="'+new Date().toISOString().slice(0,10)+'"><input type="number" id="lh" min="0" max="24" step="0.5" placeholder="Hours"><input type="text" id="lt" maxlength="300" placeholder="What did you work on?"><button id="ladd">Add entry</button></div>';
+ h+=S.log.length?'<ul class="log">'+S.log.map((l,i)=>'<li><time>'+esc(l.d)+'</time><span class="lh">'+l.h+' h</span><span class="lt">'+esc(l.t)+'</span>'+(canEdit?'<button class="ghost" data-del="'+i+'" aria-label="Delete entry">Remove</button>':'')+'</li>').join('')+'</ul>':'<p class="sub">No entries yet.'+(canEdit?' Add what you worked on after each session.':'')+'</p>';
+ root.innerHTML=h;
+}
+function mark(){dirty=true;const b=document.getElementById('save'),m=document.getElementById('msg');if(b)b.disabled=false;if(m)m.textContent='Unsaved changes. Download the updated page when you are done.'}
+root.addEventListener('change',e=>{const n=e.target.dataset.n;if(n){st(+n).s=+e.target.value;dirty=true;render()}});
+root.addEventListener('input',e=>{const n=e.target.dataset.note;if(n){st(+n).n=e.target.value;mark()}});
+root.addEventListener('click',e=>{const t=e.target;
+ if(t.dataset.f!==undefined){filt=+t.dataset.f;render()}
+ else if(t.dataset.del!==undefined){S.log.splice(+t.dataset.del,1);dirty=true;render()}
+ else if(t.id=='ladd'){const d=document.getElementById('ld').value,hh=parseFloat(document.getElementById('lh').value),tx=document.getElementById('lt').value.trim();
+  if(!d||!(hh>=0)||!tx){document.getElementById('msg').textContent='Enter a date, hours and a short description.';return}
+  S.log.unshift({d:d,h:hh,t:tx});S.log.sort((a,b)=>b.d.localeCompare(a.d));dirty=true;render()}
+ else if(t.id=='tog'){canEdit=!canEdit;render()}
+ else if(t.id=='save')save()});
+function build(){
+ const j=JSON.stringify(S).replace(/</g,'\\u003c'),E='</'+'script>';
+ return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Security Engineering Roadmap Tracker</title><style id="css">'+document.getElementById('css').textContent+'</style></head><body><main id="root"></main><script id="state" type="application/json">'+j+E+'<script id="app">'+document.getElementById('app').textContent+E+'</body></html>';
+}
+function save(){
+ S.updated=new Date().toISOString().slice(0,10);
+ const blob=new Blob([build()],{type:'text/html'}),a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);a.download='index.html';document.body.append(a);a.click();a.remove();
+ dirty=false;const b=document.getElementById('save');if(b)b.disabled=true;
+ document.getElementById('msg').textContent='Downloaded index.html. Upload it to GitHub to replace the old file.';
+}
+canEdit=/[?&]edit/.test(location.search);
+render();
+</script></body></html>

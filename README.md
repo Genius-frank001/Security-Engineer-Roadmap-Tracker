@@ -2,7 +2,7 @@
 
 I'm moving into a Security Engineer / AppSec role. This repo tracks my progress through a structured 24-month roadmap, using free resources only (with a few flagged exceptions).
 
-**Live tracker:** https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/
+**Live tracker:** https://genius-frank001.github.io/Security-Engineer-Roadmap-Tracker/
 
 ## About the roadmap
 
